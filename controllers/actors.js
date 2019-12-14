@@ -1,21 +1,39 @@
+const inventoryDB = require('./events').inventoryDB
 
-var getAllActors = () => {
-	
+
+const getAllActors = (req, res) => {
+	inventoryDB.find({}, function(err, data) {
+		console.log("sending all actors");
+		if (err) res.status(404).send(err);
+		else res.status(200).send(data.map(info => info.actor));
+	})
 };
 
-var updateActor = () => {
+
+// inventoryDB.insert(event, function(err, data) {
+// 	if (err) res.status(500).send(err);
+// 	else res.status(201).send(data);
+// 	});
+
+
+const updateActor = (req, res) => {
+	const{ id, avatar_url } = req.body;
+	inventoryDB.update({ "actor._id": id }, { $set: { "actor.avatar_url": avatar_url } }, { multi: true }, function(err, data) {
+		if (err) res.status(404).send(err);
+		else res.status(200).send(data);
+	});
 
 };
 
-var getStreak = () => {
+const getStreak = () => {
 
 };
 
 
 module.exports = {
-	updateActor: updateActor,
-	getAllActors: getAllActors,
-	getStreak: getStreak
+	updateActor,
+	getAllActors,
+	getStreak,
 };
 
 

@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "pretest": "npm install",
     "test": "./node_modules/.bin/mocha test"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
-    "body-parser": "~1.19.0",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
@@ -25,6 +25,10 @@
     "morgan": "~1.9.1",
     "nedb": "^1.8.0",
     "serve-favicon": "~2.5.0",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.1.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
