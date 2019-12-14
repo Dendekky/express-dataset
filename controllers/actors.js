@@ -10,12 +10,6 @@ const getAllActors = (req, res) => {
 };
 
 
-// inventoryDB.insert(event, function(err, data) {
-// 	if (err) res.status(500).send(err);
-// 	else res.status(201).send(data);
-// 	});
-
-
 const updateActor = (req, res) => {
 	const{ id, avatar_url } = req.body;
 	inventoryDB.update({ "actor._id": id }, { $set: { "actor.avatar_url": avatar_url } }, { multi: true }, function(err, data) {
