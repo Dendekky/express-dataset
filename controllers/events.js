@@ -9,8 +9,9 @@ app.use(bodyParser.json());
 // module.exports = app;
 // Creates Database
 var inventoryDB = new Datastore({
-  filename: "../model/eventewer.db",
-  autoload: true
+  filename: "./model/event.db",
+  autoload: true,
+  timestampData: true
 });
 
 // GET inventory
@@ -53,9 +54,12 @@ const getByActor = (req, res) => {
 		  inventoryDB.find({ "actor._id": req.params.actorId }, function(err, data) {
 			  if (err) res.status(404).send(err);
 			  else {
-				res.status(200).send(
-					data.sort((a, b) =>  a._id - b._id )
-					)
+				  if (data.length < 1) res.status(404).send(err);
+				  else{
+					res.status(200).send(
+						data.sort((a, b) =>  a._id - b._id )
+						)
+				}
 			  }
 		  })
 		}

@@ -4,6 +4,6 @@ const eventController = require('../controllers/events');
 
 // Route related to delete events
 
-router.get('/', eventController.eraseEvents);
+router.delete('/', eventController.eraseEvents);
 
 module.exports = router;
