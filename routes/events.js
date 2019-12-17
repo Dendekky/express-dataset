@@ -9,6 +9,6 @@ router.post('/', eventController.addEvent);
 
 router.get('/erase', eventController.eraseEvents);
 
-router.get('/actor/:actorId', eventController.getByActor);
+router.get('/actors/:id', eventController.getByActor);
 
 module.exports = router;

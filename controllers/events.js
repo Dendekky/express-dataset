@@ -9,17 +9,20 @@ app.use(bodyParser.json());
 // module.exports = app;
 // Creates Database
 var inventoryDB = new Datastore({
-  filename: "./model/event.db",
+  filename: "./model/evenwttheNewsDB.db",
   autoload: true,
-  timestampData: true
+//   timestampData: true
 });
 
 // GET inventory
 
 const getAllEvents = (req, res) => {
 	inventoryDB.find({}, function(err, data) {
-		console.log("sending all events");
-		res.status(200).send(data);
+		if (err) res.status(404).send(err);
+		else {
+			console.log("sending all events");
+			res.status(200).send(data.sort((a, b) =>  a.id - b.id ).pop() );
+		}
 	})
 };
 
@@ -27,17 +30,20 @@ const addEvent = (req, res) => {
 	var eventObject = req.body;
 	
 	const event = {
+		id: eventObject.id,
 		type: eventObject.type,
 		actor: {
-			_id: uuidv1(),
+			id: eventObject.actor.id,
 			login: eventObject.actor.login,
 			avatar_url: eventObject.actor.avatar_url
 		},
 		repo: {
-			_id: uuidv1(),
+			id: eventObject.repo.id,
 			name: eventObject.repo.name,
 			url: eventObject.repo.url
-		}
+		},
+		created_at: eventObject.created_at,
+		updated_at: eventObject.updated_at
 	}
 
 	inventoryDB.insert(event, function(err, data) {
@@ -48,21 +54,22 @@ const addEvent = (req, res) => {
 
 
 const getByActor = (req, res) => {
-		if (!req.params.actorId) {
-		  res.status(404).send("No such actor.");
-		} else {
-		  inventoryDB.find({ "actor._id": req.params.actorId }, function(err, data) {
-			  if (err) res.status(404).send(err);
-			  else {
-				  if (data.length < 1) res.status(404).send(err);
-				  else{
+		// if (!req.params.actorId) {
+		//   res.status(404).send("No such actor.");
+		// } else {
+		  inventoryDB.find({ "actor.id": req.params.id }, function(err, data) {
+			//   if (err) res.status(404).send(err);
+			//   else {
+			// 	  if (data.length < 1) res.status(404).send(err);
+			// 	  else{
 					res.status(200).send(
-						data.sort((a, b) =>  a._id - b._id )
+						data.actor
+						// .sort((a, b) =>  a._id - b._id )
 						)
-				}
-			  }
+			// 	}
+			//   }
 		  })
-		}
+		// }
 };
 
 
