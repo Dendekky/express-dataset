@@ -29,12 +29,6 @@ describe('git_test ', function() {
 						event.push(line);
 					}	
 				});
-				// chai.request(server)
-				// .get('/')
-				// .end(function(err, res) {
-				// 	chai.expect(res).to.have.status(200);
-				// 	done();
-				// });
 				Promise.mapSeries(event, (e) => {
 					let eve = JSON.parse(e);
 					if(eve.request.method == "DELETE") {

@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 // module.exports = app;
 // Creates Database
 var inventoryDB = new Datastore({
-  filename: "./model/evenwttheNewsDB.db",
+  filename: "./model/events.db",
   autoload: true,
 //   timestampData: true
 });
@@ -58,15 +58,14 @@ const getByActor = (req, res) => {
 		//   res.status(404).send("No such actor.");
 		// } else {
 		  inventoryDB.find({ "actor.id": req.params.id }, function(err, data) {
-			//   if (err) res.status(404).send(err);
+			  if (err) res.status(404).send(err);
 			//   else {
-			// 	  if (data.length < 1) res.status(404).send(err);
-			// 	  else{
+			// 	  if (data.length < 1) res.status(404).send('no actor');
+				  else{
 					res.status(200).send(
-						data.actor
-						// .sort((a, b) =>  a._id - b._id )
+						data.sort((a, b) =>  a.id - b.id ).actor
 						)
-			// 	}
+				}
 			//   }
 		  })
 		// }
